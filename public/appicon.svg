@@ -1,0 +1,57 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  x="0"
+  y="0"
+  width="60"
+  height="60.76564715414219"
+  filtersec="colorsb6567772923"
+  class="image-svg-svg primary"
+  style="overflow: visible"
+>
+  <svg
+    xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 98.74000549316406 100"
+  >
+    <defs>
+      <linearGradient
+        id="afe57ecf9-a2b5-4ae4-903f-d7b4efe8b6c8"
+        x1="41.66"
+        y1="50.23"
+        x2="65.95"
+        y2="8.17"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop offset="0" stop-color="#6ee2f5" />
+        <stop offset="1" stop-color="#6454f0" />
+      </linearGradient>
+      <linearGradient
+        id="be5638582-3459-4df8-8a86-36bfec69f582"
+        x1="51.8"
+        y1="72.43"
+        x2="98.74"
+        y2="72.43"
+        href="#afe57ecf9-a2b5-4ae4-903f-d7b4efe8b6c8"
+      />
+      <linearGradient
+        id="ccda3d736-ae24-424b-ae9b-f46d657ce5a9"
+        x1="48.56"
+        y1="67.78"
+        x2="0"
+        y2="67.78"
+        href="#afe57ecf9-a2b5-4ae4-903f-d7b4efe8b6c8"
+      />
+    </defs>
+    <path
+      d="M74.46 13.09L51.8 0a48.58 48.58 0 0 1-24.28 42.06l22.21 12.82.45.26a48.53 48.53 0 0 0 24.28-42z"
+      fill="url(#afe57ecf9-a2b5-4ae4-903f-d7b4efe8b6c8)"
+    />
+    <path
+      d="M76.08 100l22.66-13.09a48.56 48.56 0 0 1-24.28-42L51.8 57.94A48.56 48.56 0 0 0 76.08 100z"
+      fill="url(#be5638582-3459-4df8-8a86-36bfec69f582)"
+    />
+    <path
+      d="M48.56 84.12V58A48.58 48.58 0 0 0 0 57.94v26.17a48.58 48.58 0 0 1 48.56 0z"
+      fill="url(#ccda3d736-ae24-424b-ae9b-f46d657ce5a9)"
+    />
+  </svg>
+</svg>
