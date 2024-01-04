@@ -1,9 +1,14 @@
-import appLogo from "/ks-blogs.svg";
+import { Footer, Header } from "./components";
+import Posts from "./components/home/Posts";
 
 function App() {
   return (
-    <main className="bg-red-50">
-      {<img src={appLogo} className="logo" alt="KS Blogs" />}
+    <main className="min-h-screen flex flex-col">
+      <Header />
+      <div className="w-full container flex-grow mx-auto">
+        <Posts />
+      </div>
+      <Footer />
     </main>
   );
 }
