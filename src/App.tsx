@@ -1,12 +1,12 @@
+import { Outlet } from "react-router-dom";
 import { Footer, Header } from "./components";
-import Posts from "./components/home/Posts";
 
 function App() {
   return (
     <main className="min-h-screen flex flex-col">
       <Header />
       <div className="w-full container flex-grow mx-auto">
-        <Posts />
+        <Outlet />
       </div>
       <Footer />
     </main>

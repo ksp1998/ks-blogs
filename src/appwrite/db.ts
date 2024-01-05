@@ -1,15 +1,5 @@
 import config from "../config";
 import { Client, ID, Databases, Storage, Query } from "appwrite";
-
-interface PostParams {
-  title: string;
-  slug: string;
-  content: string;
-  featuredImage: string;
-  status: "publish" | "draft";
-  userId: string;
-}
-
 class DatabaseService {
   private client: Client;
   private databases: Databases;
@@ -31,7 +21,7 @@ class DatabaseService {
     featuredImage,
     status,
     userId,
-  }: PostParams) {
+  }: Record<string, any>) {
     try {
       return await this.databases.createDocument(
         config.appwriteDatabaseId,
@@ -50,7 +40,7 @@ class DatabaseService {
 
   async updatePost(
     slug: string,
-    { title, content, featuredImage, status }: PostParams
+    { title, content, featuredImage, status }: Record<string, any>
   ) {
     try {
       return await this.databases.updateDocument(
@@ -81,8 +71,8 @@ class DatabaseService {
         "Appwrite Database Service :: deletePost() :: Error",
         error
       );
+      throw error;
     }
-    return false;
   }
 
   async getPost(slug: string) {
@@ -94,8 +84,8 @@ class DatabaseService {
       );
     } catch (error) {
       console.error("Appwrite Database Service :: getPost() :: Error", error);
+      throw error;
     }
-    return false;
   }
 
   async getPosts(queries = [Query.equal("status", "publish")]) {
@@ -107,8 +97,8 @@ class DatabaseService {
       );
     } catch (error) {
       console.error("Appwrite Database Service :: getPosts() :: Error", error);
+      throw error;
     }
-    return false;
   }
 
   async uploadFile(file: File) {
@@ -123,8 +113,8 @@ class DatabaseService {
         "Appwrite Database Service :: uploadFile() :: Error",
         error
       );
+      throw error;
     }
-    return false;
   }
 
   async deleteFile(fileId: string) {
@@ -135,8 +125,8 @@ class DatabaseService {
         "Appwrite Database Service :: deleteFile() :: Error",
         error
       );
+      throw error;
     }
-    return false;
   }
 
   getFilePreview(fileId: string) {
@@ -147,8 +137,8 @@ class DatabaseService {
         "Appwrite Database Service :: getFilePreview() :: Error",
         error
       );
+      throw error;
     }
-    return false;
   }
 }
 

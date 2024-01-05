@@ -1,4 +1,4 @@
-const Posts = () => {
+const LatestBlogs = () => {
   return (
     <section className="relative overflow-hidden py-20">
       <div className="relative">
@@ -75,7 +75,7 @@ const Posts = () => {
               type="button"
               className="rounded-md border-2 border-teal-900 px-3 py-2 text-sm font-semibold text-teal-900 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
             >
-              View All Posts
+              View All Blogs
             </button>
           </div>
         </div>
@@ -84,4 +84,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default LatestBlogs;

@@ -4,14 +4,79 @@ import App from "./App.tsx";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./store/store.ts";
-import { BrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Protect from "./components/Protect.tsx";
+import {
+  AllBlogs,
+  Blog,
+  CreateBlog,
+  EditBlog,
+  Home,
+  SignIn,
+  SignUp,
+} from "./pages";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/signin",
+        element: (
+          <Protect authenticate={false}>
+            <SignIn />
+          </Protect>
+        ),
+      },
+      {
+        path: "/signup",
+        element: (
+          <Protect authenticate={false}>
+            <SignUp />
+          </Protect>
+        ),
+      },
+      {
+        path: "/blogs",
+        element: (
+          <Protect authenticate={false}>
+            <AllBlogs />
+          </Protect>
+        ),
+      },
+      {
+        path: "/create",
+        element: (
+          <Protect authenticate>
+            <CreateBlog />
+          </Protect>
+        ),
+      },
+      {
+        path: "/edit-blog/:slug",
+        element: (
+          <Protect authenticate>
+            <EditBlog />
+          </Protect>
+        ),
+      },
+      {
+        path: "/blog/:slug",
+        element: <Blog />,
+      },
+    ],
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

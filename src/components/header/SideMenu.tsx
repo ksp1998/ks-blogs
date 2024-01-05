@@ -12,7 +12,7 @@ const SideMenu = () => {
     () => [
       { text: "Home", href: "/", active: true },
       { text: "Blogs", href: "/blogs", active: true },
-      { text: "Post a blog", href: "/create-blog", active: true },
+      { text: "Post a Blog", href: "/create", active: true },
       { text: "My blogs", href: "/my-blogs", active: isLoggedIn },
     ],
     [isLoggedIn]
@@ -22,20 +22,22 @@ const SideMenu = () => {
 
   return (
     <>
-      <div className="flex gap-2 sm:gap-4">
-        <button
-          type="button"
-          className=" rounded-md border-2 border-teal-900 px-3 py-2 text-sm font-semibold text-teal-900 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-        >
-          Sign In
-        </button>
-        <button
-          type="button"
-          className=" rounded-md border-2 border-teal-900 bg-teal-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-transparent hover:text-teal-900 duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-        >
-          Log In
-        </button>
-      </div>
+      {!isLoggedIn && (
+        <div className="flex gap-2 sm:gap-4">
+          <Link
+            to="/signin"
+            className=" rounded-md border-2 border-teal-900 px-3 py-2 text-sm font-semibold text-teal-900 shadow-sm hover:scale-95 duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          >
+            Sign In
+          </Link>
+          <Link
+            to="signup"
+            className=" rounded-md border-2 border-teal-900 bg-teal-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:scale-95 duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          >
+            Sign Up
+          </Link>
+        </div>
+      )}
 
       {/* Menu bar Icon */}
       {!isSidebarOpen && (

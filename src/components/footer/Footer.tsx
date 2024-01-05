@@ -4,7 +4,7 @@ import { Logo } from "..";
 const menuItems = [
   { text: "Home", href: "/" },
   { text: "Blogs", href: "/blogs" },
-  { text: "Post a blog", href: "/create-blog" },
+  { text: "Post a blog", href: "/create" },
 ];
 
 function Footer() {
@@ -13,7 +13,7 @@ function Footer() {
       <div className="container relative z-10 mx-auto px-4">
         <div className="-m-8 flex flex-wrap items-center justify-center lg:justify-between">
           <div className="w-auto p-4 sm:p-8">
-            <Link to="#">
+            <Link to="/">
               <Logo className="h-10" />
             </Link>
           </div>

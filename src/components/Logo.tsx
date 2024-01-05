@@ -1,7 +1,7 @@
 const Logo = ({ className = "h-14" }) => {
   return (
     <svg
-      width="auto"
+      width="256"
       height="64"
       viewBox="0 0 255 64"
       fill="none"

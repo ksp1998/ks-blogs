@@ -1,8 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import authService from "../../appwrite/auth";
+
+let user = null;
+try {
+  user = await authService.getCurrentUser();
+} catch (error) {
+  user = null;
+}
 
 const initialState = {
-  loggodIn: false,
-  user: null,
+  loggodIn: Boolean(user),
+  user: user,
 };
 
 export const authSlice = createSlice({
@@ -11,7 +19,7 @@ export const authSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.loggodIn = true;
-      state.user = action.payload.user;
+      state.user = action.payload;
     },
     logout: (state) => {
       state = initialState;
