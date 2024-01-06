@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import databaseService from "../../appwrite/db";
-import parse from "html-react-parser";
 
 interface Props {
   blog: {
@@ -13,52 +12,54 @@ interface Props {
 
 function BlogCard({ blog: { $id, title, content, featuredImage } }: Props) {
   return (
-    <>
-      <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <Link to={`/blog/${$id}`} className="max-h-{100px}">
-          <img
-            className="rounded-t-lg"
-            src={`${
-              featuredImage
-                ? databaseService.getFilePreview(featuredImage)
-                : "/fallbackimage.jpg"
-            }`}
-            alt=""
-          />
+    <article className="group max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+      <Link to={`/blog/${$id}`} className="">
+        <img
+          className="w-full h-[200px] object-cover group-hover:scale-105 duration-300"
+          src={`${
+            featuredImage
+              ? databaseService.getFilePreview(featuredImage)
+              : "/placeholder.png"
+          }`}
+          alt={title}
+        />
+      </Link>
+      <div className="p-5">
+        <Link to={`/blog/${$id}`}>
+          <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {title}
+          </h2>
         </Link>
-        <div className="p-5">
-          <Link to={`/blog/${$id}`}>
-            <h2 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              {title}
-            </h2>
-          </Link>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            {parse(content)}
-          </p>
-          <Link
-            to={`/blog/${$id}`}
-            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          {content
+            ?.replaceAll(/<\/?[-a-zA-Z\d/:=#.?,&%;"_\s]+>/g, " ")
+            .replaceAll(/&[a-zA-Z]+;/g, " ")
+            .substring(0, 75)}
+          ...
+        </p>
+        <Link
+          to={`/blog/${$id}`}
+          className="inline-flex items-center px-3 py-2 mt-4 text-sm font-medium text-center text-white bg-teal-700 rounded-md hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
+        >
+          Read more
+          <svg
+            className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 10"
           >
-            Read more
-            <svg
-              className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
-          </Link>
-        </div>
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M1 5h12m0 0L9 1m4 4L9 9"
+            />
+          </svg>
+        </Link>
       </div>
-    </>
+    </article>
   );
 }
 

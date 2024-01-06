@@ -1,15 +1,23 @@
-import { SyntheticEvent, useCallback, useEffect } from "react";
+import { SyntheticEvent, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RichEditor, Select } from "..";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import databaseService from "../../appwrite/db";
+import { error, success } from "../../utils/toasts";
 
 interface Props {
   post?: Record<string, any>;
 }
 
-export default function PostForm({ post = {} }: Props) {
+const PostForm = ({ post = {} }: Props) => {
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(post?.featuredImage);
+
+  useEffect(() => {
+    setImage(post?.featuredImage);
+  }, [post.featuredImage]);
+
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
       values: {
@@ -17,7 +25,7 @@ export default function PostForm({ post = {} }: Props) {
         slug: post?.slug || "",
         content: post?.content || "",
         status: post?.status || "active",
-        featuredImage: post?.featuredImage || null,
+        featuredImage: null,
       },
     });
 
@@ -25,30 +33,44 @@ export default function PostForm({ post = {} }: Props) {
   const user = useSelector((state: any) => state.user);
 
   const submit = async (data: Record<string, any>) => {
-    const file =
-      data?.featuredImage && data?.featuredImage[0]
-        ? await databaseService.uploadFile(data.featuredImage[0])
-        : null;
+    setLoading(true);
+    try {
+      const file =
+        post.featuredImage !== data.featuredImage &&
+        data?.featuredImage &&
+        data?.featuredImage[0]
+          ? await databaseService.uploadFile(data.featuredImage[0])
+          : null;
 
-    if (post.$id) {
-      file && databaseService.deleteFile(post.featuredImage);
+      if (post.$id) {
+        file && image && databaseService.deleteFile(image);
 
-      const dbBlog = await databaseService.updatePost(post.$id, {
-        ...data,
-        featuredImage: file ? file?.$id : null,
-      });
+        const dbBlog = await databaseService.updatePost(post.$id, {
+          ...data,
+          featuredImage: file ? file?.$id : post?.featuredImage,
+        });
 
-      if (!dbBlog) {
-        alert("Oops! Failed to update blog!");
+        dbBlog
+          ? success("Blog Updated...")
+          : error("Oops! Failed to update blog!");
+
+        setImage(file ? file?.$id : post?.featuredImage);
+        setLoading(false);
+      } else {
+        const dbBlog = await databaseService.createPost({
+          ...data,
+          featuredImage: file ? file?.$id : null,
+          userId: user.$id,
+        });
+
+        dbBlog
+          ? success("Blog Created...")
+          : error("Oops! Failed to create blog!");
+
+        dbBlog && navigate(`/edit-blog/${dbBlog.$id}`);
       }
-    } else {
-      const dbBlog = await databaseService.createPost({
-        ...data,
-        featuredImage: file ? file?.$id : null,
-        userId: user.$id,
-      });
-
-      dbBlog && navigate(`/edit-blog/${dbBlog.$id}`);
+    } catch (err: any) {
+      error(err.message);
     }
   };
 
@@ -108,17 +130,17 @@ export default function PostForm({ post = {} }: Props) {
         <Input
           label="Featured Image :"
           type="file"
-          className="mb-4"
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
           accept="image/png, image/jpg, image/jpeg, image/gif"
           {...register("featuredImage")}
         />
 
-        {post?.featuredImage && (
+        {image && (
           <div className="w-full mb-4">
             <img
               src={`${
-                post?.featuredImage
-                  ? databaseService.getFilePreview(post?.featuredImage)
+                image
+                  ? databaseService.getFilePreview(image)
                   : "/fallbackimage.jpg"
               }`}
               alt={post?.title}
@@ -129,20 +151,34 @@ export default function PostForm({ post = {} }: Props) {
 
         <Select
           options={["publish", "draft"]}
-          value={"publish"}
           label="Status"
           className="mb-4"
-          {...register("status", { required: true })}
+          {...register("status", {
+            required: true,
+          })}
         />
 
         <Button
           type="submit"
-          bgColor={post ? "bg-green-500" : undefined}
+          bgColor={
+            post?.$id
+              ? "bg-teal-700 hover:bg-teal-800"
+              : "bg-teal-700 hover:bg-teal-800"
+          }
           className="w-full"
+          disabled={loading}
         >
-          {post?.$id ? "Update" : "Create"}
+          {post?.$id
+            ? loading
+              ? "Updating"
+              : "Update"
+            : loading
+            ? "Creating"
+            : "Create"}
         </Button>
       </div>
     </form>
   );
-}
+};
+
+export default PostForm;

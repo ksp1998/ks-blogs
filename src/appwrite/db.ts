@@ -1,5 +1,7 @@
 import config from "../config";
 import { Client, ID, Databases, Storage, Query } from "appwrite";
+import authService from "./auth";
+
 class DatabaseService {
   private client: Client;
   private databases: Databases;
@@ -94,6 +96,19 @@ class DatabaseService {
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
         queries
+      );
+    } catch (error) {
+      console.error("Appwrite Database Service :: getPosts() :: Error", error);
+      throw error;
+    }
+  }
+
+  async getMyPosts() {
+    try {
+      return await this.databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId,
+        [Query.equal("userId", (await authService.getCurrentUser())?.$id)]
       );
     } catch (error) {
       console.error("Appwrite Database Service :: getPosts() :: Error", error);

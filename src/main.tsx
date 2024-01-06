@@ -12,9 +12,11 @@ import {
   CreateBlog,
   EditBlog,
   Home,
+  Myblogs,
   SignIn,
   SignUp,
 } from "./pages";
+import Template from "./pages/Template.tsx";
 
 const router = createBrowserRouter([
   {
@@ -43,11 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/blogs",
-        element: (
-          <Protect authenticate={false}>
-            <AllBlogs />
-          </Protect>
-        ),
+        element: <AllBlogs />,
       },
       {
         path: "/create",
@@ -66,8 +64,20 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/my-blogs",
+        element: (
+          <Protect authenticate>
+            <Myblogs />
+          </Protect>
+        ),
+      },
+      {
         path: "/blog/:slug",
         element: <Blog />,
+      },
+      {
+        path: "/template",
+        element: <Template />,
       },
     ],
   },

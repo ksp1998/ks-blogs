@@ -13,7 +13,7 @@ const SideMenu = () => {
       { text: "Home", href: "/", active: true },
       { text: "Blogs", href: "/blogs", active: true },
       { text: "Post a Blog", href: "/create", active: true },
-      { text: "My blogs", href: "/my-blogs", active: isLoggedIn },
+      { text: "My Blogs", href: "/my-blogs", active: isLoggedIn },
     ],
     [isLoggedIn]
   );
@@ -85,28 +85,27 @@ const SideMenu = () => {
 
       {/* Sidebar (hidden by default) */}
       <nav
-        className={`fixed top-0 right-0 h-full w-96 max-w-72 bg-teal-800 transform ${
+        className={`fixed top-0 right-0 h-full w-full bg-teal-800 transform ${
           isSidebarOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out z-20 overflow-hidden`}
+        } transition-transform duration-500 ease-in-out z-20 overflow-hidden`}
       >
-        <div className="h-full flex flex-col text-white pt-24 text-3xl">
+        <div className="h-full flex flex-col justify-center text-white pt-24">
           {menuItems.map(
             (item) =>
               item.active && (
                 <Link
                   key={item.text}
                   to={item.href}
-                  className="py-4 px-6 hover:pl-10 duration-300 hover:bg-teal-900"
+                  className="w-full text-white text-center font-bold duration-300 p-5 text-5xl hover:scale-125 hover:text-teal-950"
+                  onClick={toggleSidebar}
                 >
                   {item.text}
                 </Link>
               )
           )}
 
-          <span className="flex-grow"></span>
-
           {isLoggedIn && (
-            <LogoutButton className="hover:scale-125 hover:-translate-y-1.5" />
+            <LogoutButton className="my-24 w-full text-white text-center font-bold duration-300 p-5 text-5xl hover:scale-125 hover:text-teal-950" />
           )}
         </div>
       </nav>

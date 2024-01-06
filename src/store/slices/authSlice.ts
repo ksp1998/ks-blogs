@@ -10,7 +10,7 @@ try {
 
 const initialState = {
   loggodIn: Boolean(user),
-  user: user,
+  user,
 };
 
 export const authSlice = createSlice({
@@ -22,7 +22,8 @@ export const authSlice = createSlice({
       state.user = action.payload;
     },
     logout: (state) => {
-      state = initialState;
+      state.loggodIn = false;
+      state.user = null;
     },
   },
 });

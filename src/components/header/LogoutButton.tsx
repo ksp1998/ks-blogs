@@ -13,15 +13,12 @@ const LogoutButton = ({ className = "" }) => {
       .then(() => {
         dispatch(logout());
         navigate("/");
+        window.location.reload();
       })
       .catch((error) => console.log(error));
   };
   return (
-    <button
-      type="button"
-      className={`rounded-md border-2 border-teal-900 bg-teal-900 px-3 py-2 text-sm font-semibold text-white shadow-sm duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black ${className}`}
-      onClick={logoutHandler}
-    >
+    <button type="button" className={className} onClick={logoutHandler}>
       Logout
     </button>
   );
